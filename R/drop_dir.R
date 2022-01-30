@@ -107,7 +107,8 @@ drop_dir <- function(
   }
 
   # coerce to tibble, one row per item found
-  dplyr::bind_rows(purrr::map(results, LinearizeNestedList))
+
+  dplyr::mutate(dplyr::bind_rows(purrr::map(results, LinearizeNestedList)), dplyr::across(dplyr::ends_with("modified"), ~lubridate::parse_date_time(.x, "YmdHMS")))
 }
 
 
